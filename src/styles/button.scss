@@ -1,9 +1,11 @@
+@import 'variables';
+
 .button {
   height: 50px;
   border-radius: 8px;
   font-weight: 500;
-  background: #835afd;
-  color: #FFF;
+  background: $rocketPurple;
+  color: $white;
   padding: 0 32px;
 
   display: flex;
