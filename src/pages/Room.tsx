@@ -2,6 +2,7 @@ import logoImg from '../assets/images/logo.svg';
 
 import { RoomCode } from '../components/RoomCode';
 import { Button } from '../components/Button';
+import { Question } from '../components/Question';
 
 import { useParams } from 'react-router-dom';
 import { useState, FormEvent, useEffect } from 'react';
@@ -17,7 +18,10 @@ type TRoomParams = {
 export type TFirebaseQuestion = Record<
   string,
   {
-    author: firebase.default.User;
+    author: {
+      name:string;
+      avatar:string;
+    }
     content: string;
     isAnswered: boolean;
     isHighLighted: boolean;
@@ -25,7 +29,11 @@ export type TFirebaseQuestion = Record<
 >;
 
 type TQuestion = {
-  author: firebase.default.User;
+  id: string;
+  author: {
+    name:string;
+    avatar:string;
+  }
   content: string;
   isAnswered: boolean;
   isHighLighted: boolean;
@@ -126,8 +134,18 @@ export const Room = () => {
               Enviar pergunta
             </Button>
           </div>
-        </form>
-        <p>{JSON.stringify(questions)}</p>
+        </form> 
+        
+        <div className="question-list">
+        {questions.map(question => (
+          <Question
+            content={question.content}
+            author={question.author}
+            key={question.id}
+          />
+        ))}
+        </div>
+
       </main>
     </div>
   );
