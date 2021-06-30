@@ -1,74 +1,29 @@
+import { FormEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import logoImg from '../assets/images/logo.svg';
-
-import { RoomCode } from '../components/RoomCode';
 import { Button } from '../components/Button';
 import { Question } from '../components/Question';
-
-import { useParams } from 'react-router-dom';
-import { useState, FormEvent, useEffect } from 'react';
+import { RoomCode } from '../components/RoomCode';
 import { useAuth } from '../hooks/useAuth';
+import { useRoom } from '../hooks/useRoom';
 import { database } from '../services/firebase';
-
 import '../styles/room.scss';
+
+
+
 
 type TRoomParams = {
   id: string;
-};
-
-export type TFirebaseQuestion = Record<
-  string,
-  {
-    author: {
-      name:string;
-      avatar:string;
-    }
-    content: string;
-    isAnswered: boolean;
-    isHighLighted: boolean;
-  }
->;
-
-type TQuestion = {
-  id: string;
-  author: {
-    name:string;
-    avatar:string;
-  }
-  content: string;
-  isAnswered: boolean;
-  isHighLighted: boolean;
 };
 
 export const Room = () => {
   const { user } = useAuth();
   const params = useParams<TRoomParams>();
   const [newQuestion, setNewQuestion] = useState('');
-  const [roomTitle, setRoomTitle] = useState('');
-  const [questions, setQuestions] = useState<TQuestion[]>([]);
-
   const roomId = params.id;
+  
+  const {questions, roomTitle} = useRoom(roomId)
 
-  useEffect(() => {
-    const roomRef = database.ref(`rooms/${roomId}`);
-
-    //! on bigger applications, its better to handle logic using 'child_n' events
-    roomRef.on('value', (room) => {
-      const databaseRoom = room.val();
-      const firebaseQuestions: TFirebaseQuestion = databaseRoom.questions ?? {};
-      const parsedQuestions = Object.entries(firebaseQuestions).map(
-        ([key, questionData]) => {
-          return {
-            id: key,
-            ...questionData,
-          };
-        }
-      );
-
-      setRoomTitle(databaseRoom.title);
-      setQuestions(parsedQuestions);
-    });
-    console.log(roomId);
-  }, [roomId]);
 
   const handleSendQuestion = async (e: FormEvent) => {
     e.preventDefault();
