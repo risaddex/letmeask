@@ -45,7 +45,7 @@ export const useRoom = (roomId: string) => {
     //! on bigger applications, its better to handle logic using 'child_n' events
     roomRef.on('value', (room) => {
       const databaseRoom = room.val();
-      const firebaseQuestions: TFirebaseQuestion = databaseRoom.questions ?? {};
+      const firebaseQuestions: TFirebaseQuestion = databaseRoom?.questions ?? {};
 
       const parsedQuestions = Object.entries(firebaseQuestions).map(
         ([key, questionData]) => {
@@ -60,7 +60,7 @@ export const useRoom = (roomId: string) => {
         }
       );
 
-      setRoomTitle(databaseRoom.title);
+      setRoomTitle(databaseRoom?.title);
       setQuestions(parsedQuestions);
     });
 

@@ -22,7 +22,7 @@ export const Room = () => {
   const [newQuestion, setNewQuestion] = useState('');
   const roomId = params.id;
   
-  const {questions, roomTitle} = useRoom(roomId);
+  const {questions, roomTitle, } = useRoom(roomId);
   
   const handleSendQuestion = async (e: FormEvent) => {
     e.preventDefault();
@@ -103,7 +103,7 @@ export const Room = () => {
         </form> 
         
         <div className="question-list">
-        {questions.map(question => (
+        {questions?.map(question => (
           <Question
             content={question.content}
             author={question.author}
