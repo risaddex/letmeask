@@ -21,6 +21,12 @@
     margin-right: 8px;
   }
 
+  &.outlined {
+    background: #FFF;
+    border: 1px solid $rocketPurple;
+    color: $rocketPurple;
+  }
+
   &:not(:disabled):hover {
     filter: brightness(0.9);
   }
