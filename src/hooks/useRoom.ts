@@ -21,15 +21,15 @@ export type TFirebaseQuestion = Record<
   }
 >;
 
-type TQuestion = {
+export type TQuestion = {
   id: string;
   author: {
     name: string;
     avatar: string;
   };
   content: string;
-  isAnswered: boolean;
-  isHighLighted: boolean;
+  isAnswered?: boolean;
+  isHighlighted?: boolean;
   likeCount: number;
   likeId: string | undefined;
 };
@@ -53,7 +53,7 @@ export const useRoom = (roomId: string) => {
             id: key,
             likeCount: Object.values(questionData.likes ?? {}).length,
             likeId: Object.entries(questionData.likes ?? {}).find(
-              ([key, like]) => like.authorId === user?.id
+              ([_key, like]) => like.authorId === user?.id
             )?.[0],
             ...questionData,
           };
